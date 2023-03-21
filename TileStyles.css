@@ -1,0 +1,40 @@
+.body {
+    margin: 0px;
+}
+
+.square {
+    background: black;
+    position: relative;
+    display: inline-block;
+    padding: 0px;
+}
+
+.knight {
+    width: 62.5px;
+    height: 62.5px;
+    /* display: inline-block; */
+    position: absolute;
+}
+
+
+.table.test {
+    border-collapse: collapse;
+}
+
+.checkerboard {
+    width: 500px;
+    height: 500px;
+    background: black;
+    display: grid;
+    background-size: cover;
+    grid-template-columns: repeat(8, 1fr);
+    grid-template-rows: repeat(8, 1fr);
+
+}
+
+/* .checkerboard > div {
+    background-color: tan;
+  }
+  .checkerboard > div:nth-child(2n) {
+    background-color: #2f2f2f;
+  } */
