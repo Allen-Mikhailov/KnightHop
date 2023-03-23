@@ -14,6 +14,7 @@ for (let i = 0; i < 64; i++) {
   const ci = i
   const div = document.createElement("div", { class: "" });
   div.classList.add(isWhite(i) ? "white" : "black")
+  div.classList.add("square")
   div.id = "tile" + i
   checkerboard.appendChild(div);
 

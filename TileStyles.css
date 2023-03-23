@@ -14,12 +14,17 @@ body {
     padding: 0px;
 }
 
+.square:hover {
+    /* background-color: black; */
+    filter: brightness(1.2);
+}
+
 .white {
     background: tan;
 }
 
 .black {
-    background: black;
+    background: rgb(58, 58, 58);
 }
 
 .knight {
