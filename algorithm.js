@@ -1,6 +1,8 @@
 const node_graph = []
 
-const moves = [[-1, 2], [1, 2], [-2, 1], [2, 1], [-1, -2], [1, -2], [-2, -1], [2, -1]]
+const knight_moves = [[-1, 2], [1, 2], [-2, 1], [2, 1], [-1, -2], [1, -2], [-2, -1], [2, -1]]
+const king_moves = [[1, 1], [0, 1], [-1, 1], [-1, 0], [1, 0], [1, -1], [0, -1], [-1, -1]]
+const moves = king_moves
 
 function getPos(index)
 {
@@ -34,4 +36,50 @@ function score(node1, node2)
 {
     const pos1 = getPos(node1)
     const pos2 = getPos(node2)
+
+    return Math.hypot(pos1[0] - pos2[0], pos1[1] - pos2[1])
+}
+
+function Path(start, finish)
+{
+    const open_list = [start]
+    const closed_list = []
+
+    // Initializing start stuff
+    start.parent = start
+    start.h = 0
+    start.g = 0
+    start.f = 0
+
+    function getG(node)
+    {
+        return node.parent.g + score(node, node.parent)
+    }
+
+    function getH(node)
+    {
+        return score(node, finish)
+    }
+
+    while (open_list.length > 0)
+    {
+        // Finding Node with lowest f
+        let q = open_list[0]
+        let qi = 0
+        let smallestF = getG(open_list[0]) + getH(open_list[0])
+
+        for (let i = 1; i < open_list.length; i++)
+        {
+            let f = getG(open_list[i]) + getH(open_list[i])
+
+            if (smallestF > f)
+            {
+                smallestF = f
+                q = open_list[i]
+                qi = i
+            }
+        }
+
+        open_list.splice(qi, 1)
+    }
 }
