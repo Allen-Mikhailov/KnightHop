@@ -2,23 +2,25 @@ const checkerboard = document.getElementById("board");
 const tilecolors = ["tan", "black"];
 const tiles = [];
 
-function isWhite(index)
-{
-  return ((Math.floor(i / 8) % 2) + i) % 2 == 0
+function isWhite(index) {
+  return ((Math.floor(index / 8) % 2) + index) % 2 == 0
 }
 
+let knightPos = 32
 let pause = false
 let targetPath = []
 
-for (var i = 0; i < 64; i++) {
+for (let i = 0; i < 64; i++) {
+  const ci = i
   const div = document.createElement("div", { class: "" });
-  div.classList.add(isWhite(i)?"white":"black")
-  div.id="tile"+i
+  div.classList.add(isWhite(i) ? "white" : "black")
+  div.id = "tile" + i
   checkerboard.appendChild(div);
 
   div.onclick = () => {
     pause = true
-    Path(node_graph)
+    console.log(i)
+    Path(node_graph[knightPos], node_graph[ci]).then(newPath => {targetPath = newPath; pause = false})
   }
 
   tiles[i] = div;
@@ -26,27 +28,42 @@ for (var i = 0; i < 64; i++) {
 
 const boardScale = .9
 const boardSize = Math.min(
-  document.body.getBoundingClientRect().width*boardScale, 
-  document.body.getBoundingClientRect().height*boardScale)
+  document.body.getBoundingClientRect().width * boardScale,
+  document.body.getBoundingClientRect().height * boardScale)
 
-checkerboard.style.width = boardSize+"px"
+checkerboard.style.width = boardSize + "px"
 
 const knight = document.createElement("img");
 knight.classList.add("knight");
 knight.src = "Knight.png";
-knight.style.height = (boardSize / 8)+"px";
-knight.style.width = (boardSize / 8)+"px";
+knight.style.height = (boardSize / 8) + "px";
+knight.style.width = (boardSize / 8) + "px";
 document.body.appendChild(knight);
 
-let knightPos = 32
+const corner = -(boardSize / 16) * 7
+
+function updateKnightPos()
+{
+  knight.style.translate = `${corner + boardSize / 8 * getPos(knightPos)[0]}px ${corner + boardSize / 8 * getPos(knightPos)[1]}px`
+}
 
 setInterval(() => {
+  if (pause)
+    return
 
-}, .5)
+  if (targetPath.length > 0)
+  {
+    knightPos = targetPath[0].index
+    targetPath.splice(0, 1)
+    updateKnightPos()
+  }
+}, 250)
 
-Path(node_graph[0], node_graph[11]).then((thing) => {
-  thing.map((node) => {
-    const div = document.getElementById("tile"+node.index)
-    div.style.backgroundColor = "red"
-  })
-})
+updateKnightPos()
+
+// Path(node_graph[0], node_graph[11]).then((thing) => {
+//   thing.map((node) => {
+//     const div = document.getElementById("tile" + node.index)
+//     div.style.backgroundColor = "red"
+//   })
+// })
